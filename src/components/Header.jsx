@@ -4,8 +4,9 @@ import '../components/header.css';
 function Header() {
     return (
         <div className="container d-flex header">
-                <div className="col-md-3">
-                    <i className="fa-solid fa-cart-shopping"></i>
+                <div className="col-md-3 d-flex">
+                    <i className="fa-solid fa-cart-shopping me-2"></i>
+                    <h5>Shoes Ecommerce</h5>
                 </div>
                 <div className="col-md-5">
                     <form className="d-flex">

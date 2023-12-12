@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 
 function SideBar() {
     return (
@@ -72,38 +71,71 @@ function Recommended() {
                 <h3>Recommended</h3>
             </div>
             <div className="d-flex gap-3 mb-3">
-                <ButtonShoes className='btn btn-outline-primary px-5' text='All Product'/>
-                <button type="button" className="btn btn-outline-secondary">Nike</button>
-                <button type="button" className="btn btn-outline-success">Adidas</button>
-                <button type="button" className="btn btn-outline-danger">Puma</button>
-                <button type="button" className="btn btn-outline-warning">Vans</button>
+                <ButtonShoes className='btn btn-outline-primary px-5' text='All Product' />
+                <ButtonShoes className='btn btn-outline-secondary' text='Nike' />
+                <ButtonShoes className='btn btn-outline-success' text='Adidas' />
+                <ButtonShoes className='btn btn-outline-danger' text='Puma' />
+                <ButtonShoes className='btn btn-outline-warning' text='Vans' />
             </div>
             <div className="d-flex flex-wrap gap-5">
-                <Content></Content>
-                <Content></Content>
-                <Content></Content>
-                <Content></Content>
-                <Content></Content>
+                <Content />
             </div>
 
         </div>
     )
 }
+
+
 
 function Content() {
+    // const [content, setContent] = useState('');
+    const [data, setData] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+
+    // useEffect(() => {
+    //     setIsFetching(true)
+    //     fetch('https://jsonserver-vercel-api.vercel.app/products')
+    //         .then(response => response.json())
+    //         .then(json => {
+    //             setData(json)
+    //             setIsFetching(false)
+    //         })
+    // }, [])
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch('https://jsonserver-vercel-api.vercel.app/products')
+            const result = await response.json()
+            setData(result)
+        }
+        fetchData();
+    }, [])
+
     return (
-        <div className="card" style={{ width: 200 }}>
-            <img src="https://cdn0.iconfinder.com/data/icons/avatar-78/128/3-512.png" className="card-img-top" alt="..." />
-            <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" className="btn btn-primary">Go somewhere</a>
+        data.map((shoe) => (
+            <div className="card" style={{ width: 200 }} key={shoe.id}>
+                <img src={shoe.img} className="card-img-top" alt="..." style={{ height: 150 }} />
+                <div className="card-body">
+                    <h5 className="card-title">{shoe.title}</h5>
+                    <div className="d-flex" style={{ width: 555 }}>
+                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                        <p className="ms-2">({shoe.reviews} reviews)</p>
+                    </div>
+                    <div className="d-flex gap-3">
+                        <p style={{ textDecoration: 'line-through' }}>${shoe.prevPrice}</p>
+                        <p>{shoe.newPrice}</p>
+                    </div>
+                    <a href="#" className="btn btn-primary">Add to Cart</a>
+                </div>
             </div>
-        </div>
+        ))
     )
 }
 
-function ButtonShoes (props) {
+function ButtonShoes(props) {
     return (
         <button type="button" className={props.className}>{props.text}</button>
     )
