@@ -1,148 +1,177 @@
 import React, { useEffect, useState } from "react";
+import data from "../data/products.json";
 
 function SideBar() {
+    const [products, setProducts] = useState(data.products);
+    const [category, setCategory] = useState(null);
+    const [colors, setColors] = useState(data.colors);
+    const [prices, setPrices] = useState(data.prices);
+    const [categories, setCategories] = useState(data.categories);
+    const [filterCategoryStatus, setfilterCategoryStatus] = useState(false);
+
+    const filterCategoryProducts = (categoryTitle) => {
+
+    }
+    
+    const handleChangeCategory = (e) => {
+        filterCategoryProducts(e.target.value);
+    }
+
+
     return (
         <div className="col-md-3">
             <h3>Category</h3>
-            <ul className="list-group">
-                <li className="list-group-item">
-                    <input type="radio" name="category" /> All
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="category" /> Sneakers
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="category" /> Sandal
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="category" /> Flats
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="category" /> Heels
-                </li>
+            <ul className="list-group" onChange={() => {setfilterCategoryStatus(false); handleChangeCategory();}}>
+                {
+                    data.categories.map((item) => {
+                        return (
+                            <li className="list-group-item" key={item.id}>
+                                <input type="radio" name="category" value={item.title} onChange={() => {setfilterCategoryStatus(true); handleChangeCategory();}}/> {item.title}
+                            </li>
+                        )
+                    })
+                }
             </ul>
             <h3>Price</h3>
             <ul className="list-group">
-                <li className="list-group-item">
-                    <input type="radio" name="price" /> All
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="price" /> $0 - 50
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="price" /> $50 - 100
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="price" /> $100 - 150
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="price" /> Over $150
-                </li>
+                {
+                    data.prices.map((item) =>
+                        // if (item.min == "All" || item.max == "Over $150") {
+                        //     return (
+                        //         <li className="list-group-item" key={item.id}>
+                        //             <input type="radio" name="price" /> {item.max}
+                        //         </li>
+                        //     )
+                        // }
+                        // return (
+                        //     <li className="list-group-item" key={item.id}>
+                        //         <input type="radio" name="price" /> ${item.min} - ${item.max}
+                        //     </li>
+                        // )
+                        item.min == "All" || item.max == "Over $150" ?
+                            <li className="list-group-item">
+                                <input type="radio" name="price" /> {item.max}
+                            </li>
+                            :
+                            <li className="list-group-item">
+                                <input type="radio" name="price" /> ${item.min} - {item.max}
+                            </li>
+                    )
+                }
             </ul>
             <h3>Colors</h3>
             <ul className="list-group">
                 <li className="list-group-item">
                     <input type="radio" name="colors" style={{ backgroundImage: 'linear-gradient(to right, red, green)' }} className="form-check-input" /> All
                 </li>
-                <li className="list-group-item">
-                    <input type="radio" name="colors" style={{ backgroundColor: 'black' }} className="form-check-input" /> Black
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="colors" style={{ backgroundColor: 'blue' }} className="form-check-input" /> Blue
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="colors" style={{ backgroundColor: 'red' }} className="form-check-input" /> Red
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="colors" style={{ backgroundColor: 'green' }} className="form-check-input" /> Green
-                </li>
-                <li className="list-group-item">
-                    <input type="radio" name="colors" style={{ backgroundColor: 'white' }} className="form-check-input" /> White
-                </li>
+                {
+                    data.colors.map((item) => {
+                        return (
+                            <li className="list-group-item">
+                                <input type="radio" name="colors" style={{ backgroundColor: item.color }} className="form-check-input" /> {item.title}
+                            </li>
+                        )
+                    })
+                }
             </ul>
         </div>
     )
 }
 
 function Recommended() {
+    const [products, setProducts] = useState(data.products);
+    const [companies, setCompanies] = useState(data.companies);
+    const [companyTitle, setCompanyTitle] = useState(null);
+    const [filterProduct, setFilterProduct] = useState([]);
+    const [filterCompanyStatus, setFilterCompanyStatus] = useState(false);
+
+    const handleChangeCompany = (companyTitle) => {
+        setCompanyTitle(companyTitle);
+    }
+
+    const handleSetFilterStatus = (tf) => {
+        setFilterCompanyStatus(tf);
+    }
+
+    useEffect(() => {
+        const newProduct = products.filter(item => item.company === companyTitle);
+        setFilterProduct(newProduct);
+    }
+        ,[companyTitle])
+
     return (
         <div className="col-md-9">
             <div>
                 <h3>Recommended</h3>
             </div>
             <div className="d-flex gap-3 mb-3">
-                <ButtonShoes className='btn btn-outline-primary px-5' text='All Product' />
-                <ButtonShoes className='btn btn-outline-secondary' text='Nike' />
-                <ButtonShoes className='btn btn-outline-success' text='Adidas' />
-                <ButtonShoes className='btn btn-outline-danger' text='Puma' />
-                <ButtonShoes className='btn btn-outline-warning' text='Vans' />
+                <button type="button" className='btn btn-outline-primary px-5' onClick={() => handleSetFilterStatus(false)}>All Products</button>
+                {
+                    companies.map((item) => {
+                        return (
+                            <button type="button" className={filterCompanyStatus && item.title === companyTitle ? "btn btn-primary px-5" : "btn btn-outline-primary px-5"}
+                             onClick={() => { handleSetFilterStatus(true); handleChangeCompany(item.title); }}>{item.title}</button>
+                        )
+                    })
+                }
             </div>
             <div className="d-flex flex-wrap gap-5">
-                <Content />
+                <Content filterProduct={filterProduct} filterStatus={filterCompanyStatus}/>
             </div>
-
         </div>
     )
 }
 
 
 
-function Content() {
-    // const [content, setContent] = useState('');
-    const [data, setData] = useState([]);
-    const [isFetching, setIsFetching] = useState(false);
-
-    // useEffect(() => {
-    //     setIsFetching(true)
-    //     fetch('https://jsonserver-vercel-api.vercel.app/products')
-    //         .then(response => response.json())
-    //         .then(json => {
-    //             setData(json)
-    //             setIsFetching(false)
-    //         })
-    // }, [])
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch('https://jsonserver-vercel-api.vercel.app/products')
-            const result = await response.json()
-            setData(result)
-        }
-        fetchData();
-    }, [])
-
+function Content({ filterProduct, filterStatus }) {
     return (
-        data.map((shoe) => (
-            <div className="card" style={{ width: 200 }} key={shoe.id}>
-                <img src={shoe.img} className="card-img-top" alt="..." style={{ height: 150 }} />
-                <div className="card-body">
-                    <h5 className="card-title">{shoe.title}</h5>
-                    <div className="d-flex" style={{ width: 555 }}>
-                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
-                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
-                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
-                        <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
-                        <p className="ms-2">({shoe.reviews} reviews)</p>
+        <>
+            {
+                filterStatus ? filterProduct.map((shoe) => (
+                    <div className="card" style={{ width: 200 }} key={shoe.id}>
+                        <img src={shoe.img} className="card-img-top" alt="..." style={{ height: 150 }} />
+                        <div className="card-body">
+                            <h5 className="card-title">{shoe.title}</h5>
+                            <div className="d-flex" style={{ width: 200 }}>
+                                <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                <p className="ms-2">({shoe.reviews} reviews)</p>
+                            </div>
+                            <div className="d-flex gap-3">
+                                <p style={{ textDecoration: 'line-through' }}>${shoe.prevPrice}</p>
+                                <p>${shoe.newPrice}</p>
+                            </div>
+                            <a href="#" className="btn btn-primary">Add to Cart</a>
+                        </div>
                     </div>
-                    <div className="d-flex gap-3">
-                        <p style={{ textDecoration: 'line-through' }}>${shoe.prevPrice}</p>
-                        <p>{shoe.newPrice}</p>
-                    </div>
-                    <a href="#" className="btn btn-primary">Add to Cart</a>
-                </div>
-            </div>
-        ))
+                )) :
+                    data.products.map((shoe) => (
+                        <div className="card" style={{ width: 200 }} key={shoe.id}>
+                            <img src={shoe.img} className="card-img-top" alt="..." style={{ height: 150 }} />
+                            <div className="card-body">
+                                <h5 className="card-title">{shoe.title}</h5>
+                                <div className="d-flex" style={{ width: 200 }}>
+                                    <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                    <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                    <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                    <i className="fa-solid fa-star" style={{ color: 'yellow' }}></i>
+                                    <p className="ms-2">({shoe.reviews} reviews)</p>
+                                </div>
+                                <div className="d-flex gap-3">
+                                    <p style={{ textDecoration: 'line-through' }}>${shoe.prevPrice}</p>
+                                    <p>${shoe.newPrice}</p>
+                                </div>
+                                <a href="#" className="btn btn-primary">Add to Cart</a>
+                            </div>
+                        </div>
+                    ))
+            }
+        </>
     )
 }
-
-function ButtonShoes(props) {
-    return (
-        <button type="button" className={props.className}>{props.text}</button>
-    )
-}
-
-
-
 
 
 export { SideBar, Recommended, Content };

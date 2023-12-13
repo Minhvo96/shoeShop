@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import '../components/header.css';
+import data from "../data/products.json";
 
 function Header() {
     return (
@@ -10,7 +11,7 @@ function Header() {
                 </div>
                 <div className="col-md-5">
                     <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Enter your search shoes" aria-label="Search" />
+                        <input className="form-control me-2" type="search" placeholder="Enter your search shoes" aria-label="Search"/>
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
