@@ -7,13 +7,19 @@ const ModalUpdateProduct = ({ show, handleCloseModalUpdate, product, handleUpdat
     const [newProduct, setNewProduct] = useState({});
 
     const handleChangeProduct = (e) => {
-        setNewProduct({
-            ...product,
-            title: e.target.value
-        });
+
+        if(e.target.value > 0) {
+            setNewProduct({
+                ...newProduct,
+                [e.target.name]: e.target.value
+            });
+        } else {
+            setNewProduct({
+                ...product
+            });
+        }
         handleUpdateProducts(newProduct);
     }
-
 
     return (
         <Modal show={show} onHide={handleCloseModalUpdate} size="lg" centered>
@@ -35,11 +41,11 @@ const ModalUpdateProduct = ({ show, handleCloseModalUpdate, product, handleUpdat
                     <div className="row">
                         <div className="col-lg-6">
                             <label htmlFor="">Prev Price</label>
-                            <input type="text" name="prevPrice" className="form-control" defaultValue={product.prevPrice} />
+                            <input type="text" name="prevPrice" className="form-control" defaultValue={product.prevPrice} onChange={handleChangeProduct} />
                         </div>
                         <div className="col-lg-6">
                             <label htmlFor="">New Price</label>
-                            <input type="text" name="newPrice" className="form-control" defaultValue={product.newPrice} />
+                            <input type="text" name="newPrice" className="form-control" defaultValue={product.newPrice} onChange={handleChangeProduct} />
                         </div>
                     </div>
                     <div className="row">
@@ -50,6 +56,12 @@ const ModalUpdateProduct = ({ show, handleCloseModalUpdate, product, handleUpdat
                         <div className="col-lg-6">
                             <label htmlFor="">Category</label>
                             <input type="text" name="category" className="form-control" defaultValue={product.category} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <label htmlFor="">Image</label>
+                            <input type="text" name="img" className="form-control" defaultValue={product.img} onChange={handleChangeProduct} />
                         </div>
                     </div>
                 </form>

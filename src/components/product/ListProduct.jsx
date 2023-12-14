@@ -48,7 +48,7 @@ const ListProduct = ({ data, setData }) => {
         let newProducts = [...products];
         const reverseProducts = sortProducts(newProducts);
         setProducts(reverseProducts);
-    },[products])
+    },[])
 
 
 
