@@ -3,19 +3,19 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 
-const ModalUpdateProduct = ({ show, handleCloseModalUpdate, product, handleUpdateProducts }) => {
+const ModalUpdateProduct = ({ show, handleCloseModalUpdate, product, handleUpdateProducts, data }) => {
     const [newProduct, setNewProduct] = useState({});
 
     const handleChangeProduct = (e) => {
-
-        if(e.target.value > 0) {
+        if (Object.keys(newProduct).length) {
             setNewProduct({
                 ...newProduct,
                 [e.target.name]: e.target.value
             });
         } else {
             setNewProduct({
-                ...product
+                ...product,
+                [e.target.name]: e.target.value
             });
         }
         handleUpdateProducts(newProduct);
@@ -35,7 +35,17 @@ const ModalUpdateProduct = ({ show, handleCloseModalUpdate, product, handleUpdat
                         </div>
                         <div className="col-lg-6">
                             <label htmlFor="">Company</label>
-                            <input type="text" name="company" className="form-control" defaultValue={product.company} />
+                            <select name="company"
+                                className="form-control"
+                                defaultValue={product.company}  
+                                onChange={handleChangeProduct}>
+                                {
+                                    (data.companies).map((company) => (
+                                        <option key={company.id} >{company.title}
+                                        </option>
+                                    ))
+                                }
+                            </select>
                         </div>
                     </div>
                     <div className="row">

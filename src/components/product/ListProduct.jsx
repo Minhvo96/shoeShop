@@ -4,7 +4,7 @@ import ModalUpdateProduct from "./ModalUpdateProduct";
 
 const ListProduct = ({ data, setData }) => {
     const [showModalUpdate, setShowModalUpdate] = useState(false);
-    
+
     const [products, setProducts] = useState(data.products);
     const [product, setProduct] = useState({});
 
@@ -16,8 +16,10 @@ const ListProduct = ({ data, setData }) => {
 
         setProducts(newProducts);
 
-        const newData = {...data, products: newProducts};
+        const newData = { ...data, products: newProducts };
         setData(newData);
+
+        alert('Edit Product successfully');
     }
 
     const handleShowModalUpdate = (id) => {
@@ -31,6 +33,25 @@ const ListProduct = ({ data, setData }) => {
         }
     }
 
+    const handleDelete = (id) => {
+        const confirmDeleted = window.confirm('Are you sure delete product ' + id);
+
+        if (confirmDeleted) {
+            const index = products.findIndex(item => item.id === id);
+
+            const newProducts = [...products];
+
+            newProducts.splice(index, 1);
+
+            setProducts(newProducts);
+
+            const newData = { ...data, products: newProducts };
+            setData(newData);
+        } else {
+            alert('Cant find product with that ID');
+        }
+    }
+
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
     }
@@ -40,7 +61,7 @@ const ListProduct = ({ data, setData }) => {
     }
 
     const sortProducts = array => {
-        array.sort((a,b) => {return b.id-a.id});
+        array.sort((a, b) => { return b.id - a.id });
         return array;
     }
 
@@ -48,7 +69,7 @@ const ListProduct = ({ data, setData }) => {
         let newProducts = [...products];
         const reverseProducts = sortProducts(newProducts);
         setProducts(reverseProducts);
-    },[])
+    }, [])
 
 
 
@@ -101,7 +122,7 @@ const ListProduct = ({ data, setData }) => {
                                         </td>
                                         <td>
                                             <i className="fas fa-edit me-2" onClick={() => handleShowModalUpdate(shoe.id)}></i>
-                                            <i className="fa-solid fa-trash"></i>
+                                            <i className="fa-solid fa-trash" onClick={() => handleDelete(shoe.id)}></i>
                                         </td>
                                     </tr>
                                 )
@@ -110,7 +131,7 @@ const ListProduct = ({ data, setData }) => {
                     </tbody>
                 </table>
             </div>
-            <ModalUpdateProduct show={showModalUpdate} handleCloseModalUpdate={handleCloseModalUpdate} product={product} handleUpdateProducts={handleUpdateProducts} />
+            <ModalUpdateProduct show={showModalUpdate} handleCloseModalUpdate={handleCloseModalUpdate} product={product} handleUpdateProducts={handleUpdateProducts} data={data} />
         </>
     )
 }

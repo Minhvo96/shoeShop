@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function SideBar({data}) {
+function SideBar({ data }) {
     const [products, setProducts] = useState(data.products);
     const [filterProduct, setFilterProduct] = useState([]);
 
@@ -23,8 +23,6 @@ function SideBar({data}) {
     const handleSetCompanyFilterStatus = (tf) => {
         setFilterCompanyStatus(tf);
     }
-
-
     const handleChangeCategory = (categoryTitle) => {
         console.log(categoryTitle);
         setCategoriesTitle(categoryTitle);
@@ -50,25 +48,25 @@ function SideBar({data}) {
 
     const handleSetFilterProduct = () => {
         if (filterCompanyStatus && filterCategoryStatus && filterColorStatus && filterPriceStatus) {
-            const newProductWithCompanyAndStatusAndColor = products.filter(item => item.company === companyTitle && item.category === categoriesTitle && item.color === colorsTitle && (parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) || parseInt(item.newPrice) > parseInt(pricesTitle[0])));
+            const newProductWithCompanyAndStatusAndColor = products.filter(item => item.company === companyTitle && item.category === categoriesTitle && item.color === colorsTitle && (pricesTitle[0] !== '150' ? parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) : parseInt(item.newPrice) > parseInt(pricesTitle[0])));
             setFilterProduct(newProductWithCompanyAndStatusAndColor);
             return;
         }
 
         if (filterCompanyStatus && filterCategoryStatus && filterPriceStatus) {
-            const newProductWithCompanyAndStatus = products.filter(item => item.company === companyTitle && item.category === categoriesTitle && (parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) || parseInt(item.newPrice) > parseInt(pricesTitle[0])));
+            const newProductWithCompanyAndStatus = products.filter(item => item.company === companyTitle && item.category === categoriesTitle && (pricesTitle[0] !== '150' ? parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) : parseInt(item.newPrice) > parseInt(pricesTitle[0])));
             setFilterProduct(newProductWithCompanyAndStatus);
             return;
         }
 
         if (filterCompanyStatus && filterColorStatus && filterPriceStatus) {
-            const newProductWithCompanyAndStatusAndColor = products.filter(item => item.company === companyTitle && item.color === colorsTitle && (parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) || parseInt(item.newPrice) > parseInt(pricesTitle[0])));
+            const newProductWithCompanyAndStatusAndColor = products.filter(item => item.company === companyTitle && item.color === colorsTitle && (pricesTitle[0] !== '150' ? parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) : parseInt(item.newPrice) > parseInt(pricesTitle[0])));
             setFilterProduct(newProductWithCompanyAndStatusAndColor);
             return;
         }
 
         if (filterCategoryStatus && filterColorStatus && filterPriceStatus) {
-            const newProductWithCompanyAndStatusAndColor = products.filter(item => item.category === categoriesTitle && item.color === colorsTitle && (parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) || parseInt(item.newPrice) > parseInt(pricesTitle[0])));
+            const newProductWithCompanyAndStatusAndColor = products.filter(item => item.category === categoriesTitle && item.color === colorsTitle && (pricesTitle[0] !== '150' ? parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) : parseInt(item.newPrice) > parseInt(pricesTitle[0])));
             setFilterProduct(newProductWithCompanyAndStatusAndColor);
             return;
         }
@@ -124,7 +122,7 @@ function SideBar({data}) {
         }
 
         if (filterPriceStatus) {
-            const newProductWithPrice = products.filter(item => parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) || parseInt(item.newPrice) > parseInt(pricesTitle[0]));
+            const newProductWithPrice = products.filter(item => (pricesTitle[0] !== '150' ? parseInt(item.newPrice) > parseInt(pricesTitle[0]) && parseInt(item.newPrice) <= parseInt(pricesTitle[1]) : parseInt(item.newPrice) > parseInt(pricesTitle[0])) || item.price === 'all');
             setFilterProduct(newProductWithPrice);
             return;
         }
@@ -199,7 +197,7 @@ function SideBar({data}) {
                     }
                 </div>
                 <div className="d-flex flex-wrap gap-5">
-                    <Content filterProduct={filterProduct} filterCompanyStatus={filterCompanyStatus} filterCategoryStatus={filterCategoryStatus} filterColorStatus={filterColorStatus} filterPriceStatus={filterPriceStatus} data={data}/>
+                    <Content filterProduct={filterProduct} filterCompanyStatus={filterCompanyStatus} filterCategoryStatus={filterCategoryStatus} filterColorStatus={filterColorStatus} filterPriceStatus={filterPriceStatus} data={data} />
                 </div>
             </div>
         </div>

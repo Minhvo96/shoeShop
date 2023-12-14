@@ -56,37 +56,37 @@ const CreateProduct = ({ data, setData }) => {
                 <div className="row">
                     <div className="col-lg-6">
                         <label htmlFor="">Title</label>
-                        <input type="text" name="title" className="form-control" onChange={handleChangeProduct} />
+                        <input type="text" name="title" className="form-control" required onChange={handleChangeProduct} />
                     </div>
                     <div className="col-lg-6">
                         <label htmlFor="">Company</label>
-                        <input type="text" name="company" className="form-control" onChange={handleChangeProduct} />
+                        <input type="text" name="company" className="form-control" required onChange={handleChangeProduct} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-lg-6">
                         <label htmlFor="">Prev Price</label>
-                        <input type="text" name="prevPrice" className="form-control" onChange={handleChangeProduct} />
+                        <input type="text" name="prevPrice" className="form-control" required onChange={handleChangeProduct} />
                     </div>
                     <div className="col-lg-6">
                         <label htmlFor="">New Price</label>
-                        <input type="text" name="newPrice" className="form-control" onChange={handleChangeProduct} />
+                        <input type="text" name="newPrice" className="form-control" required onChange={handleChangeProduct} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-lg-6">
                         <label htmlFor="">Color</label>
-                        <input type="text" name="color" className="form-control" onChange={handleChangeProduct} />
+                        <input type="text" name="color" className="form-control" required onChange={handleChangeProduct} />
                     </div>
                     <div className="col-lg-6">
                         <label htmlFor="">Category</label>
-                        <input type="text" name="category" className="form-control" onChange={handleChangeProduct} />
+                        <input type="text" name="category" className="form-control" required onChange={handleChangeProduct} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-lg-12">
                         <label htmlFor="">Image</label>
-                        <input type="text" name="img" className="form-control" onChange={handleChangeProduct} />
+                        <input type="text" name="img" className="form-control" required onChange={handleChangeProduct} />
                     </div>
                 </div>
                 <div className="row">
